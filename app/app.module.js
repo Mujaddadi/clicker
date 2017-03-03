@@ -9,9 +9,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var http_1 = require("@angular/http");
-// import { RouterModule } from '@angular/router';
 var app_component_1 = require("./app.component");
-// import { WelcomeComponent }  from './home/welcome.component';
+var home_component_1 = require("./home.component");
+var user_component_1 = require("./user.component");
+var userAuthent_component_1 = require("./userAuthent.component");
+var app_routes_1 = require("./app.routes");
 var httpService_1 = require("./services/httpService");
 var AppModule = (function () {
     function AppModule() {
@@ -20,13 +22,11 @@ var AppModule = (function () {
 }());
 AppModule = __decorate([
     core_1.NgModule({
-        imports: [platform_browser_1.BrowserModule,
-            http_1.HttpModule,
-        ],
-        declarations: [app_component_1.AppComponent],
+        imports: [platform_browser_1.BrowserModule, http_1.HttpModule, app_routes_1.routing],
+        declarations: [app_component_1.AppComponent, userAuthent_component_1.UserAuthentication, user_component_1.User, home_component_1.HomeComponent],
         bootstrap: [app_component_1.AppComponent],
         providers: [
-            httpService_1.HttpService
+            httpService_1.HttpService, app_routes_1.appRoutingProvider
         ],
     })
 ], AppModule);

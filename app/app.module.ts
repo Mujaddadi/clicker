@@ -1,26 +1,21 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
-// import { RouterModule } from '@angular/router';
 
 import { AppComponent }  from './app.component';
-// import { WelcomeComponent }  from './home/welcome.component';
+import { HomeComponent }  from './home.component';
+import { User }  from './user.component';
+import { UserAuthentication }  from './userAuthent.component';
+import { routing, appRoutingProvider } from './app.routes';
+
 import { HttpService } from './services/httpService';
 
 @NgModule({
-  imports: [ BrowserModule,
-  HttpModule,
- /* RouterModule.forRoot([
-      {path: 'Welcome', component: WelcomeComponent },
-      {path: '', redirectTo: 'Welcome', pathMatch: 'full' },
-      {path: '**', redirectTo: 'Welcome', pathMatch: 'full' },
-    ])*/
-   ],
-  declarations: [ AppComponent ],
+  imports: [ BrowserModule, HttpModule, routing],
+  declarations: [ AppComponent, UserAuthentication, User, HomeComponent ],
   bootstrap: [ AppComponent ],
   providers: [
-        HttpService
-
+        HttpService, appRoutingProvider
      ],
 })
 export class AppModule {

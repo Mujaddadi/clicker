@@ -1,22 +1,19 @@
 
-body{
-    
-    font-size: 50px;
-}
-
-div#main{
+div#main {
     text-align: center;
-    padding : 100px 60px;
+    padding: 100px 60px;
 }
 
-div#main div{
+ div#clickDiv h1 {
+    margin-bottom: 80px;
+    font-size: 100px;
+}
 
-
-margin-bottom: 80px;
-
+div#main div#bttnDiv {
+    margin-bottom: 80px;
+    font-size: 40px;
 }
 
 div#main button {
-
     width: 150px;
 }
