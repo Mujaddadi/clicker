@@ -12,10 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var httpService_1 = require("./services/httpService");
 var router_1 = require("@angular/router");
+var auth_service_1 = require("./services/auth.service");
 var HomeComponent = (function () {
-    function HomeComponent(httpService, router) {
+    function HomeComponent(httpService, router, auth) {
         this.httpService = httpService;
         this.router = router;
+        this.auth = auth;
         this.clickURL = 'http://localhost:3500/click';
     }
     HomeComponent.prototype.updateClick = function () {
@@ -48,7 +50,7 @@ HomeComponent = __decorate([
         selector: 'home',
         templateUrl: 'home.component.html',
     }),
-    __metadata("design:paramtypes", [httpService_1.HttpService, router_1.Router])
+    __metadata("design:paramtypes", [httpService_1.HttpService, router_1.Router, auth_service_1.Auth])
 ], HomeComponent);
 exports.HomeComponent = HomeComponent;
 //# sourceMappingURL=home.component.js.map

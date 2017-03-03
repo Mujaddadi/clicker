@@ -2,7 +2,7 @@ import { error } from 'util';
 import { Component , OnInit  } from '@angular/core';
 import { HttpService } from './services/httpService';
 import { Router } from '@angular/router';
-
+import { Auth } from './services/auth.service';
 
 @Component({
     moduleId: module.id,
@@ -17,7 +17,7 @@ export class HomeComponent  implements OnInit{
 
      private clickURL: string = 'http://localhost:3500/click';
 
-     constructor(private httpService: HttpService, private router: Router) {}
+     constructor(private httpService: HttpService, private router: Router, private auth: Auth) {}
 
 
      updateClick() {

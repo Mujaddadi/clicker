@@ -1,27 +1,20 @@
 
-        
 
-            <div class="row">
-        <div class="col-sm-12">
-            <button type="button" class="btn btn-primary" [routerLink]= "['/login']">Login</button>
-            <button type="button" class="btn btn-primary" [routerLink]= "['/login']">Register</button>
+      <h1 *ngIf="auth.authenticated()"> Welcome </h1>
+      <div class="alert alert-success" *ngIf="auth.authenticated()">You ae logged in</div>
+      <div class="alert alert-danger" *ngIf="!auth.authenticated()">You will need to sign in to click the button</div>
 
-        </div>
-
-</div>
-
-
-    
     <div class="row" id="clickDiv">
         <div class="col-sm-12">
-            <h1 > {{clicked}} </h1>
+            
+            <button type="button" class="btn btn-primary" [disabled]="!auth.authenticated()" (click)="updateClick()" id= "button">{{clicked}} </button>
         </div>
     </div>
 
     <div class="row" id="bttnDiv">
         <div class="col-sm-12">
 
-            <p>You will need to sign in to click the button</p>
+    
 
         </div>
     </div>

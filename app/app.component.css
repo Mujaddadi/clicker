@@ -4,16 +4,12 @@ div#main {
     padding: 100px 60px;
 }
 
- div#clickDiv h1 {
-    margin-bottom: 80px;
-    font-size: 100px;
+
+div#main #button {
+    margin: 80px 0;
+    font-size: 60px;
+   padding-left:40px;
+   padding-right:40px;
+   min-width: 150px;
 }
 
-div#main div#bttnDiv {
-    margin-bottom: 80px;
-    font-size: 40px;
-}
-
-div#main button {
-    width: 150px;
-}
