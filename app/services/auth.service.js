@@ -18,10 +18,12 @@ var Auth = (function () {
         this.httpService = httpService;
         // Configure Auth0
         this.lock = new Auth0Lock('kiFEDR9RJ4dos13YxmGDGz8Q7xVmHbwx', 'tahahassan.eu.auth0.com', {});
+        console.log("Running Auth");
         // Set userProfile attribute of already saved profile
         this.userProfile = JSON.parse(localStorage.getItem('profile'));
         // Add callback for the Lock `authenticated` event
         this.lock.on("authenticated", function (authResult) {
+            console.log("Fetching Profile Data");
             localStorage.setItem('id_token', authResult.idToken);
             // Fetch profile information
             _this.lock.getProfile(authResult.idToken, function (error, profile) {
@@ -32,12 +34,18 @@ var Auth = (function () {
                 }
                 localStorage.setItem('profile', JSON.stringify(profile));
                 _this.userProfile = profile;
+                console.log(profile);
                 localStorage.setItem('email', profile.email);
                 // Getting the user Informaion from local databse. If not found in databse, new entry will be added to database
-                _this.httpService.getData('http://localhost:3500/user?email=' + profile.email).subscribe(function (data) {
+                _this.httpService.getData(' http://07f382a0.ngrok.io/user?email=' + profile.email).subscribe(function (data) {
+                    console.log("Got Data");
                     if (data.length === 0) {
-                        _this.httpService.setData('http://localhost:3500/user', { 'username': profile.name, 'email': profile.email, 'clicked': 0 }).subscribe(function (data) {
+                        localStorage.setItem('timelastClicked', "0");
+                        _this.httpService.setData(' http://07f382a0.ngrok.io/user', { 'username': profile.name, 'email': profile.email, 'clicked': 0 }).subscribe(function (data) {
                         }, function (error) { return console.log(error); });
+                    }
+                    else {
+                        localStorage.setItem('timelastClicked', data.updatedAt);
                     }
                 }, function (error) { return console.log(error); });
             });
@@ -45,7 +53,13 @@ var Auth = (function () {
     }
     Auth.prototype.login = function () {
         // Call the show method to display the widget.
-        this.lock.show();
+        this.lock.show(function (err, profile, id_token) {
+            if (err) {
+                console.log(err);
+            }
+            console.log(profile);
+            console.log(id_token);
+        });
     };
     Auth.prototype.authenticated = function () {
         // Check if there's an unexpired JWT
@@ -56,6 +70,7 @@ var Auth = (function () {
         // Remove token from localStorage
         localStorage.removeItem('id_token');
         localStorage.removeItem('profile');
+        localStorage.removeItem('email');
         this.userProfile = undefined;
     };
     return Auth;

@@ -21,20 +21,23 @@ var HttpService = (function () {
     } // Instantiate the Http service
     // Fucntion to get the data
     HttpService.prototype.getData = function (_productUrl) {
+        console.log(_productUrl);
+        console.log("Running get Data Service");
         return this.http.get(_productUrl).map(function (res) { return res.json(); });
     };
     // Function to insert the data
     HttpService.prototype.setData = function (_productUrl, newObject) {
+        console.log("Running set Data Service");
         console.log(_productUrl);
-        console.log(newObject);
         var headers = new http_1.Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON    
         var options = new http_1.RequestOptions({ headers: headers }); // Create a request option
-        var objectString = JSON.stringify({ newObject: newObject }); // Stringify payload
+        var objectString = JSON.stringify(newObject); // Stringify payload
         return this.http.post(_productUrl, objectString, options).map(function (res) { return res.json(); });
     };
     // Function to update the data
     HttpService.prototype.updateData = function (_productUrl, updateobject) {
-        ;
+        console.log("Running update Data Service");
+        // console.log("The product URL received is " + _productUrl);
         var headers = new http_1.Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
         var options = new http_1.RequestOptions({ headers: headers }); // Create a request option
         var objectString = JSON.stringify(updateobject); // Stringify payload

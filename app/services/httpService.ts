@@ -21,6 +21,9 @@ export class HttpService {
 // Fucntion to get the data
 
     getData(_productUrl: string) {
+
+    console.log(_productUrl);
+              console.log("Running get Data Service");
         return this.http.get(_productUrl).map((res: Response) => res.json());
     }
 
@@ -28,14 +31,16 @@ export class HttpService {
  // Function to insert the data
 
     setData(_productUrl: string , newObject: Object) {
+    
+        console.log("Running set Data Service");
 
-        console.log(_productUrl);
-        console.log(newObject);
+        
+    console.log(_productUrl);
 
         let headers = new Headers({'Content-Type': 'application/json'});  // ... Set content type to JSON    
         let options       = new RequestOptions({ headers: headers });     // Create a request option
 
-        let objectString = JSON.stringify({newObject}); // Stringify payload
+        let objectString = JSON.stringify(newObject); // Stringify payload
 
         return this.http.post(_productUrl, objectString, options).map((res: Response) => res.json());
     }
@@ -45,7 +50,9 @@ export class HttpService {
 // Function to update the data
 
     updateData(_productUrl: string, updateobject: Object ) {
-;
+
+            console.log("Running update Data Service");
+   // console.log("The product URL received is " + _productUrl);
 
         let headers = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
         let options       = new RequestOptions({ headers: headers }); // Create a request option

@@ -6,8 +6,14 @@
 
     <div class="row" id="clickDiv">
         <div class="col-sm-12">
-            
+            <p> Clicks so far</p>
             <button type="button" class="btn btn-primary" [disabled]="!auth.authenticated() || timeLastClicked" (click)="updateClick()" id= "button">{{clicked}} </button>
+        </div>
+
+        <div>
+            <p *ngIf="auth.authenticated()">You have clicked So far {{timeClicked || 0}} times. Your last clicked was at {{timeSinceLastClick || 0}}</p>
+
+            <p *ngIf="auth.authenticated()">Time to next click</p>
         </div>
     </div>
 

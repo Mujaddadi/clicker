@@ -1,4 +1,3 @@
-import { IDisabledInterval } from 'tslint/lib/lint';
 import { error } from 'util';
 import { Component , OnInit  } from '@angular/core';
 import { HttpService } from './services/httpService';
@@ -10,31 +9,32 @@ import * as moment from 'moment/moment';
 @Component({
     moduleId: module.id,
     selector: 'home',
-    templateUrl: 'home.component.html',
+    templateUrl: 'home.component.html'
+    
 })
-export class HomeComponent  implements OnInit{ 
+export class HomeComponent  implements OnInit {
 
-     clicked: number;
-     updateClicked: string;
-     _id: number; //Click ID
-     user_ID : number;
-      profile: any;
+     clicked: number; // To store the value of number of times user have clicked the button
+     click_id: number; // To the store the ID of Clicks database entry
+     user_ID : number;    // To the store the user ID 
+      profile: any;        ////To save the user detail from Auth
 
-      timeLastClicked: any;
-      timeClicked: number;
+      timeLastClicked: boolean;    // 
+      timeClicked: number;     // How many time the button us clicked
+      timeSinceLastClick: string ;   // 
 
 
-     private clickURL: string = 'http://localhost:3500/click';
-     private userAPIUrl: string = 'http://localhost:3500/user';
+     private clickURL: string = ' http://07f382a0.ngrok.io/click';
+     private userAPIUrl: string = ' http://07f382a0.ngrok.io/user';
 
      constructor(private httpService: HttpService, private router: Router, private auth: Auth) {
-
+            console.log("Runnning Home component Constructor");
      }
 
 
      updateClick() {
 
-         let url = this.clickURL +  '/' + this._id;
+         let url = this.clickURL +  '/' + this.click_id;
          let newClick = this.clicked + 1;
          let obj = {click: newClick};
 
@@ -43,10 +43,12 @@ export class HomeComponent  implements OnInit{
 
             });
 
+            this.timeClicked = this.timeClicked + 1;
 
-            this.userAPIUrl = 'http://localhost:3500/user' + "/" + this.user_ID;
+            this.userAPIUrl = ' http://07f382a0.ngrok.io/user' + "/" + this.user_ID;
 
-            this.httpService.updateData( this.userAPIUrl, {'clicked': ++this.timeClicked}).subscribe(
+
+            this.httpService.updateData( this.userAPIUrl, {'clicked': this.timeClicked}).subscribe(
                           data => {
        },                   error => console.log(error));
 
@@ -62,37 +64,58 @@ export class HomeComponent  implements OnInit{
 
 
      ngOnInit() {
-
+            console.log("Runnning ngOninit");
            // To get total numbr of clicks so far 
            this.httpService.getData(this.clickURL).subscribe(
                 data => {
                 this.clicked = data[0].click;
-                this._id = data[0]._id;
+                this.click_id = data[0]._id;
          }, 
          error => console.log(error));
 
-
+        
         this.profile = JSON.parse(localStorage.getItem('profile')) || {}; // Add to the profile
 
         // To get the loged user last clicked time
-         this.httpService.getData(this.userAPIUrl + '?email=' + localStorage.getItem('email')).subscribe(
+    
+
+                
+                
+  //     if(this.auth.authenticated()) {
+    
+            console.log("In IF");
+
+            console.log(this.userAPIUrl + '?email=' + localStorage.getItem('email'));
+            
+             this.httpService.getData(this.userAPIUrl + '?email=' + localStorage.getItem('email')).subscribe(
                 data => {
+        
 
                 let b = moment(Date.now());
-                let diff= 1440 / b.diff(data[0].updatedAt , 'minutes');
+                let diff = 1440 / b.diff(data[0].updatedAt , 'minutes');
+
+
+                        console.log("Time clicked so far "+data[0].clicked);
+                this.timeSinceLastClick = moment(data[0].updatedAt).format('MMMM Do YYYY, h:mm:ss a');
 
                 this.timeClicked = data[0].clicked; // get the number of times User clicked
                 this.user_ID = data[0]._id;
 
-                if(diff > 1 &&  this.timeClicked !== 0){
-                        this.timeLastClicked = true ;
-                }
+                console.log('The user ID is' + this.user_ID);
 
-                else{
+                if (diff > 1 &&  this.timeClicked !== 0){
+                        this.timeLastClicked = true ;
+                }  else {
                     this.timeLastClicked = false ;
                 }
-             }, 
-         error => console.log(error));
-            }
+             },
+                 error => console.log(error));
+        }
+        
+     
+        
+   //  }
 
 }
+
+

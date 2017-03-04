@@ -6,8 +6,8 @@
             <button type="button" class="btn btn-primary" [routerLink]="['/home']">Home</button>
         </div>
         <div class="col-sm-6">
-            <button type="button" class="btn btn-primary" (click)= "auth.login()" *ngIf = "!auth.authenticated()" >Login</button>
-            <button type="button" class="btn btn-primary" (click)= "auth.logout()" *ngIf = "auth.authenticated()">Logout</button>
+            <button type="button" class="btn btn-primary" (click)= "login()" *ngIf = "!auth.authenticated()" >Login</button>
+            <button type="button" class="btn btn-primary" (click)= "logout()" *ngIf = "auth.authenticated()">Logout</button>
             <button type="button" class="btn btn-primary" [routerLink]="['/profile']" *ngIf = "auth.authenticated()">Profile</button>
 
         </div>

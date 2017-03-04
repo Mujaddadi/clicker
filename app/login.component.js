@@ -10,28 +10,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var auth_service_1 = require("./services/auth.service");
-var AppComponent = (function () {
-    function AppComponent(auth) {
+var auth_service_1 = require("./auth.service");
+var LoginComponent = (function () {
+    function LoginComponent(auth) {
         this.auth = auth;
     }
-    AppComponent.prototype.login = function () {
-        this.auth.login();
-    };
-    AppComponent.prototype.logout = function () {
-        this.auth.logout();
-    };
-    AppComponent.prototype.ngOnInit = function () {
-    };
-    return AppComponent;
+    return LoginComponent;
 }());
-AppComponent = __decorate([
+LoginComponent = __decorate([
     core_1.Component({
-        moduleId: module.id,
-        selector: 'app',
-        templateUrl: 'app.component.html'
+        selector: 'login',
+        templateUrl: 'app/login.template.html'
     }),
-    __metadata("design:paramtypes", [auth_service_1.Auth])
-], AppComponent);
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+    __metadata("design:paramtypes", [typeof (_a = typeof auth_service_1.Auth !== "undefined" && auth_service_1.Auth) === "function" && _a || Object])
+], LoginComponent);
+exports.LoginComponent = LoginComponent;
+var _a;
+//# sourceMappingURL=login.component.js.map

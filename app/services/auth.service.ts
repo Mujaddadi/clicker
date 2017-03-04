@@ -12,14 +12,19 @@ export class Auth {
 
    userProfile: Object;
 
-constructor(private httpService: HttpService) {
+constructor(private httpService: HttpService, ) {
+      
+      console.log("Running Auth");
 
     // Set userProfile attribute of already saved profile
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
 
     // Add callback for the Lock `authenticated` event
     this.lock.on("authenticated", (authResult: any) => {
-      localStorage.setItem('id_token', authResult.idToken);
+      
+           console.log("Fetching Profile Data");
+
+           localStorage.setItem('id_token', authResult.idToken);
 
       // Fetch profile information
       this.lock.getProfile(authResult.idToken, (error: any, profile: any) => {
@@ -31,33 +36,47 @@ constructor(private httpService: HttpService) {
 
         localStorage.setItem('profile', JSON.stringify(profile));
         this.userProfile = profile;
-
+      
+        console.log(profile);
         localStorage.setItem('email',  profile.email);
 
 
       // Getting the user Informaion from local databse. If not found in databse, new entry will be added to database
-        this.httpService.getData('http://localhost:3500/user?email=' +  profile.email).subscribe(
+        this.httpService.getData(' http://07f382a0.ngrok.io/user?email=' +  profile.email).subscribe(
                 data => {
+                   console.log("Got Data");
                    if(data.length === 0)
                     {
+                  
+                      localStorage.setItem('timelastClicked',  "0");
 
-                    this.httpService.setData('http://localhost:3500/user',{'username': profile.name,	'email': profile.email, 'clicked': 0}).subscribe(
+                    this.httpService.setData(' http://07f382a0.ngrok.io/user',{'username': profile.name,	'email': profile.email, 'clicked': 0}).subscribe(
                           data => {
-            
+
                    }, 
                    error => console.log(error));
 
+                 } else{
+
+                        localStorage.setItem('timelastClicked',  data.updatedAt);
                  }
 
                  }, error => console.log(error));
 
       });
+      
     });
   }
 
   public login() {
     // Call the show method to display the widget.
-    this.lock.show();
+    this.lock.show((err: string, profile: string, id_token: string)=> {
+      if(err){
+        console.log(err);
+      }
+          console.log(profile);
+          console.log(id_token);
+    } );
   }
 
   public authenticated() {
@@ -70,6 +89,9 @@ constructor(private httpService: HttpService) {
     // Remove token from localStorage
     localStorage.removeItem('id_token');
     localStorage.removeItem('profile');
+    localStorage.removeItem('email');
     this.userProfile = undefined;
   }
 }
+
+
