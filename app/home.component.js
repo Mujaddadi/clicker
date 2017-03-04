@@ -13,13 +13,14 @@ var core_1 = require("@angular/core");
 var httpService_1 = require("./services/httpService");
 var router_1 = require("@angular/router");
 var auth_service_1 = require("./services/auth.service");
+var moment = require("moment/moment");
 var HomeComponent = (function () {
     function HomeComponent(httpService, router, auth) {
         this.httpService = httpService;
         this.router = router;
         this.auth = auth;
         this.clickURL = 'http://localhost:3500/click';
-        this.profile = JSON.parse(localStorage.getItem('profile')) || {};
+        this.userAPIUrl = 'http://localhost:3500/user';
     }
     HomeComponent.prototype.updateClick = function () {
         var _this = this;
@@ -29,26 +30,35 @@ var HomeComponent = (function () {
         this.httpService.updateData(url, obj).subscribe(function (data) {
             _this.clicked = newClick;
         });
+        this.userAPIUrl = 'http://localhost:3500/user' + "/" + this.user_ID;
+        this.httpService.updateData(this.userAPIUrl, { 'clicked': ++this.timeClicked }).subscribe(function (data) {
+        }, function (error) { return console.log(error); });
+        // Disable the click button untill time is completed
+        this.timeLastClicked = true;
     };
-    /* updateUserClick() {
-
-         let url = this.clickURL +  '/' + this._id;
-         let newClick = this.clicked + 1;
-         let obj = {click: newClick};
-
-         this.httpService.updateData( url, obj ).subscribe(data => {
-              this.clicked = newClick;
-
-            });
-     }*/
     HomeComponent.prototype.redirect = function (pagename) {
         this.router.navigate(['/' + pagename]);
     };
     HomeComponent.prototype.ngOnInit = function () {
         var _this = this;
+        // To get total numbr of clicks so far 
         this.httpService.getData(this.clickURL).subscribe(function (data) {
             _this.clicked = data[0].click;
             _this._id = data[0]._id;
+        }, function (error) { return console.log(error); });
+        this.profile = JSON.parse(localStorage.getItem('profile')) || {}; // Add to the profile
+        // To get the loged user last clicked time
+        this.httpService.getData(this.userAPIUrl + '?email=' + localStorage.getItem('email')).subscribe(function (data) {
+            var b = moment(Date.now());
+            var diff = 1440 / b.diff(data[0].updatedAt, 'minutes');
+            _this.timeClicked = data[0].clicked; // get the number of times User clicked
+            _this.user_ID = data[0]._id;
+            if (diff > 1 && _this.timeClicked !== 0) {
+                _this.timeLastClicked = true;
+            }
+            else {
+                _this.timeLastClicked = false;
+            }
         }, function (error) { return console.log(error); });
     };
     return HomeComponent;

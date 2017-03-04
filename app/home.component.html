@@ -1,20 +1,13 @@
 
 
       <h1 *ngIf="auth.authenticated()"> Welcome {{profile.given_name}} {{profile.family_name}}</h1>
-      <div class="alert alert-success" *ngIf="auth.authenticated()">You ae logged in</div>
+      <div class="alert alert-success" *ngIf="auth.authenticated()">You are logged in</div>
       <div class="alert alert-danger" *ngIf="!auth.authenticated()">You will need to sign in to click the button</div>
 
     <div class="row" id="clickDiv">
         <div class="col-sm-12">
             
-            <button type="button" class="btn btn-primary" [disabled]="!auth.authenticated()" (click)="updateClick()" id= "button">{{clicked}} </button>
+            <button type="button" class="btn btn-primary" [disabled]="!auth.authenticated() || timeLastClicked" (click)="updateClick()" id= "button">{{clicked}} </button>
         </div>
     </div>
 
-    <div class="row" id="bttnDiv">
-        <div class="col-sm-12">
-
-    
-
-        </div>
-    </div>

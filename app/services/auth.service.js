@@ -32,13 +32,11 @@ var Auth = (function () {
                 }
                 localStorage.setItem('profile', JSON.stringify(profile));
                 _this.userProfile = profile;
-                var userEmail = JSON.parse(localStorage.getItem('profile')).email;
-                var userName = JSON.parse(localStorage.getItem('profile')).name;
-                // Getting the user Informaion from local databse
-                _this.httpService.getData('http://localhost:3500/user?email=' + userEmail).subscribe(function (data) {
+                localStorage.setItem('email', profile.email);
+                // Getting the user Informaion from local databse. If not found in databse, new entry will be added to database
+                _this.httpService.getData('http://localhost:3500/user?email=' + profile.email).subscribe(function (data) {
                     if (data.length === 0) {
-                        _this.httpService.setData('http://localhost:3500/user', { 'username': userName, 'email': userEmail, 'click': 0 }).subscribe(function (data) {
-                            // console.log(JSON.parse(localStorage.getItem('profile')).email);
+                        _this.httpService.setData('http://localhost:3500/user', { 'username': profile.name, 'email': profile.email, 'clicked': 0 }).subscribe(function (data) {
                         }, function (error) { return console.log(error); });
                     }
                 }, function (error) { return console.log(error); });

@@ -25,9 +25,11 @@ var HttpService = (function () {
     };
     // Function to insert the data
     HttpService.prototype.setData = function (_productUrl, newObject) {
+        console.log(_productUrl);
+        console.log(newObject);
         var headers = new http_1.Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON    
         var options = new http_1.RequestOptions({ headers: headers }); // Create a request option
-        var objectString = JSON.stringify(newObject); // Stringify payload
+        var objectString = JSON.stringify({ newObject: newObject }); // Stringify payload
         return this.http.post(_productUrl, objectString, options).map(function (res) { return res.json(); });
     };
     // Function to update the data

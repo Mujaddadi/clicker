@@ -13,15 +13,16 @@ export class Auth {
    userProfile: Object;
 
 constructor(private httpService: HttpService) {
+
     // Set userProfile attribute of already saved profile
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
 
     // Add callback for the Lock `authenticated` event
-    this.lock.on("authenticated", (authResult) => {
+    this.lock.on("authenticated", (authResult: any) => {
       localStorage.setItem('id_token', authResult.idToken);
 
       // Fetch profile information
-      this.lock.getProfile(authResult.idToken, (error, profile) => {
+      this.lock.getProfile(authResult.idToken, (error: any, profile: any) => {
         if (error) {
           // Handle error
           alert(error);
@@ -31,23 +32,22 @@ constructor(private httpService: HttpService) {
         localStorage.setItem('profile', JSON.stringify(profile));
         this.userProfile = profile;
 
+        localStorage.setItem('email',  profile.email);
 
-         let userEmail: any = JSON.parse(localStorage.getItem('profile')).email;
-         let userName: any = JSON.parse(localStorage.getItem('profile')).name;
 
-   // Getting the user Informaion from local databse
-        this.httpService.getData('http://localhost:3500/user?email=' +  userEmail).subscribe(
+      // Getting the user Informaion from local databse. If not found in databse, new entry will be added to database
+        this.httpService.getData('http://localhost:3500/user?email=' +  profile.email).subscribe(
                 data => {
                    if(data.length === 0)
                     {
-                      
-                    this.httpService.setData('http://localhost:3500/user',{'username': userName,	'email': userEmail, 'click': 0}).subscribe(
+
+                    this.httpService.setData('http://localhost:3500/user',{'username': profile.name,	'email': profile.email, 'clicked': 0}).subscribe(
                           data => {
-                         // console.log(JSON.parse(localStorage.getItem('profile')).email);
+            
                    }, 
                    error => console.log(error));
 
-                    }
+                 }
 
                  }, error => console.log(error));
 

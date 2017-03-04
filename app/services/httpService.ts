@@ -29,10 +29,13 @@ export class HttpService {
 
     setData(_productUrl: string , newObject: Object) {
 
+        console.log(_productUrl);
+        console.log(newObject);
+
         let headers = new Headers({'Content-Type': 'application/json'});  // ... Set content type to JSON    
         let options       = new RequestOptions({ headers: headers });     // Create a request option
 
-        let objectString = JSON.stringify(newObject); // Stringify payload
+        let objectString = JSON.stringify({newObject}); // Stringify payload
 
         return this.http.post(_productUrl, objectString, options).map((res: Response) => res.json());
     }

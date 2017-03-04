@@ -10,15 +10,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var moment = require("moment/moment");
 var auth_service_1 = require("./services/auth.service");
 var AppComponent = (function () {
     function AppComponent(auth) {
         this.auth = auth;
-        var a = moment(1488618697790);
-        var b = moment(Date.now());
-        var days = b.diff(a, 'minutes');
-        console.log(days);
     }
     return AppComponent;
 }());
