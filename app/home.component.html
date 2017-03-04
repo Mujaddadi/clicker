@@ -1,6 +1,6 @@
 
 
-      <h1 *ngIf="auth.authenticated()"> Welcome </h1>
+      <h1 *ngIf="auth.authenticated()"> Welcome {{profile.given_name}} {{profile.family_name}}</h1>
       <div class="alert alert-success" *ngIf="auth.authenticated()">You ae logged in</div>
       <div class="alert alert-danger" *ngIf="!auth.authenticated()">You will need to sign in to click the button</div>
 

@@ -19,27 +19,36 @@ var HomeComponent = (function () {
         this.router = router;
         this.auth = auth;
         this.clickURL = 'http://localhost:3500/click';
+        this.profile = JSON.parse(localStorage.getItem('profile')) || {};
     }
     HomeComponent.prototype.updateClick = function () {
         var _this = this;
         var url = this.clickURL + '/' + this._id;
         var newClick = this.clicked + 1;
         var obj = { click: newClick };
-        console.log(obj);
         this.httpService.updateData(url, obj).subscribe(function (data) {
             _this.clicked = newClick;
         });
     };
+    /* updateUserClick() {
+
+         let url = this.clickURL +  '/' + this._id;
+         let newClick = this.clicked + 1;
+         let obj = {click: newClick};
+
+         this.httpService.updateData( url, obj ).subscribe(data => {
+              this.clicked = newClick;
+
+            });
+     }*/
     HomeComponent.prototype.redirect = function (pagename) {
         this.router.navigate(['/' + pagename]);
     };
     HomeComponent.prototype.ngOnInit = function () {
         var _this = this;
-        console.log('Starting');
         this.httpService.getData(this.clickURL).subscribe(function (data) {
             _this.clicked = data[0].click;
             _this._id = data[0]._id;
-            console.log(_this._id);
         }, function (error) { return console.log(error); });
     };
     return HomeComponent;

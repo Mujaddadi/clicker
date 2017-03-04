@@ -10,25 +10,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var moment = require("moment/moment");
+var router_1 = require("@angular/router");
 var auth_service_1 = require("./services/auth.service");
-var AppComponent = (function () {
-    function AppComponent(auth) {
+var AuthGuard = (function () {
+    function AuthGuard(auth, router) {
         this.auth = auth;
-        var a = moment(1488618697790);
-        var b = moment(Date.now());
-        var days = b.diff(a, 'minutes');
-        console.log(days);
+        this.router = router;
     }
-    return AppComponent;
+    AuthGuard.prototype.canActivate = function (next, state) {
+        if (this.auth.authenticated()) {
+            console.log('Auth Guar Passed');
+            return true;
+        }
+        else {
+            console.log('Blocked By Auth Guard');
+            this.router.navigate(['/']);
+            return false;
+        }
+    };
+    return AuthGuard;
 }());
-AppComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'app',
-        templateUrl: 'app.component.html'
-    }),
-    __metadata("design:paramtypes", [auth_service_1.Auth])
-], AppComponent);
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+AuthGuard = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [auth_service_1.Auth, router_1.Router])
+], AuthGuard);
+exports.AuthGuard = AuthGuard;
+//# sourceMappingURL=auth.guard.js.map

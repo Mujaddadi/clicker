@@ -11,13 +11,38 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var angular2_jwt_1 = require("angular2-jwt");
+var httpService_1 = require("./httpService");
 var Auth = (function () {
-    function Auth() {
+    function Auth(httpService) {
+        var _this = this;
+        this.httpService = httpService;
         // Configure Auth0
         this.lock = new Auth0Lock('kiFEDR9RJ4dos13YxmGDGz8Q7xVmHbwx', 'tahahassan.eu.auth0.com', {});
-        // Add callback for lock `authenticated` event
-        this.lock.on('authenticated', function (authResult) {
+        // Set userProfile attribute of already saved profile
+        this.userProfile = JSON.parse(localStorage.getItem('profile'));
+        // Add callback for the Lock `authenticated` event
+        this.lock.on("authenticated", function (authResult) {
             localStorage.setItem('id_token', authResult.idToken);
+            // Fetch profile information
+            _this.lock.getProfile(authResult.idToken, function (error, profile) {
+                if (error) {
+                    // Handle error
+                    alert(error);
+                    return;
+                }
+                localStorage.setItem('profile', JSON.stringify(profile));
+                _this.userProfile = profile;
+                var userEmail = JSON.parse(localStorage.getItem('profile')).email;
+                var userName = JSON.parse(localStorage.getItem('profile')).name;
+                // Getting the user Informaion from local databse
+                _this.httpService.getData('http://localhost:3500/user?email=' + userEmail).subscribe(function (data) {
+                    if (data.length === 0) {
+                        _this.httpService.setData('http://localhost:3500/user', { 'username': userName, 'email': userEmail, 'click': 0 }).subscribe(function (data) {
+                            // console.log(JSON.parse(localStorage.getItem('profile')).email);
+                        }, function (error) { return console.log(error); });
+                    }
+                }, function (error) { return console.log(error); });
+            });
         });
     }
     Auth.prototype.login = function () {
@@ -32,12 +57,14 @@ var Auth = (function () {
     Auth.prototype.logout = function () {
         // Remove token from localStorage
         localStorage.removeItem('id_token');
+        localStorage.removeItem('profile');
+        this.userProfile = undefined;
     };
     return Auth;
 }());
 Auth = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [httpService_1.HttpService])
 ], Auth);
 exports.Auth = Auth;
 //# sourceMappingURL=auth.service.js.map

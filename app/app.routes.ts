@@ -4,16 +4,15 @@ import {ModuleWithProviders} from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { HomeComponent }  from './home.component';
-import { User }  from './user.component';
 import { UserAuthentication }  from './userAuthent.component';
 import { Profile }  from './profile.component';
+import { AuthGuard }  from './auth.guard';
 
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent},
   { path: 'login', component: UserAuthentication },
-  { path: 'user', component: User },
-  { path: 'profile', component: Profile },
+  { path: 'profile', component: Profile},
   { path: '**', redirectTo: 'home' , pathMatch: 'full' },
   { path: '', redirectTo: 'home' , pathMatch: 'full' },
 ];

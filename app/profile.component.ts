@@ -7,10 +7,10 @@ import { Auth } from './services/auth.service';
 
 })
 
-export class Profile
- {
+export class Profile {
+    profile: any;
 
-         constructor(private auth: Auth){
-
+    constructor(private auth: Auth){
+        this.profile = JSON.parse(localStorage.getItem('profile'));
     }
  }

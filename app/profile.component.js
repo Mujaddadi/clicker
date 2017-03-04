@@ -14,6 +14,7 @@ var auth_service_1 = require("./services/auth.service");
 var Profile = (function () {
     function Profile(auth) {
         this.auth = auth;
+        this.profile = JSON.parse(localStorage.getItem('profile'));
     }
     return Profile;
 }());

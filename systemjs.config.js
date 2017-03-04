@@ -25,7 +25,8 @@
 
       // other libraries
       'rxjs': 'npm:rxjs',
-      'angular2-jwt':   'node_modules/angular2-jwt/angular2-jwt.js'
+      'angular2-jwt':   'node_modules/angular2-jwt/angular2-jwt.js',
+      'moment': 'node_modules/moment'
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -38,7 +39,8 @@
       },
       'angular2-jwt':{
         'defaultExtension':'js' 
-      }
+      },
+      'moment': { defaultExtension: 'js' }
     }
   });
 })(this);
