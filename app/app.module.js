@@ -12,6 +12,7 @@ var http_1 = require("@angular/http");
 var angular2_jwt_1 = require("angular2-jwt");
 var app_component_1 = require("./app.component");
 var home_component_1 = require("./home.component");
+var greeting_component_1 = require("./greeting.component");
 var profile_component_1 = require("./profile.component");
 var userAuthent_component_1 = require("./userAuthent.component");
 var app_routes_1 = require("./app.routes");
@@ -26,7 +27,7 @@ var AppModule = (function () {
 AppModule = __decorate([
     core_1.NgModule({
         imports: [platform_browser_1.BrowserModule, http_1.HttpModule, app_routes_1.routing],
-        declarations: [app_component_1.AppComponent, userAuthent_component_1.UserAuthentication, home_component_1.HomeComponent, profile_component_1.Profile],
+        declarations: [app_component_1.AppComponent, userAuthent_component_1.UserAuthentication, home_component_1.HomeComponent, profile_component_1.Profile, greeting_component_1.Greetings],
         bootstrap: [app_component_1.AppComponent],
         providers: [
             httpService_1.HttpService,

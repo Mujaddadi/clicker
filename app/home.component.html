@@ -1,13 +1,27 @@
+<div class="alert alert-success" *ngIf="auth.authenticated()">You are logged in</div>
+<div class="alert alert-danger" *ngIf="!auth.authenticated()" >You will need to sign in to click the button</div>
 
+<div *ngIf="!auth.authenticated()">
+    <div class="row" id="clickDiv">
+        <div class="col-sm-12">
+            <h1> Clicks so far</h1>
+            <button type="button" class="btn btn-primary" [disabled]="!auth.authenticated() || timeLastClicked" (click)="updateClick()"
+                id="button">{{clicked}} </button>
+        </div>
+    </div>
 
-      <h1 *ngIf="auth.authenticated()"> Welcome {{profile.given_name}} {{profile.family_name}}</h1>
-      <div class="alert alert-success" *ngIf="auth.authenticated()">You are logged in</div>
-      <div class="alert alert-danger" *ngIf="!auth.authenticated()">You will need to sign in to click the button</div>
+</div>
+<h2 *ngIf="auth.authenticated()" id="welcomeHeading"> Welcome </h2>
+
+<div *ngIf="gotData && auth.authenticated()">
 
     <div class="row" id="clickDiv">
         <div class="col-sm-12">
-            <p> Clicks so far</p>
-            <button type="button" class="btn btn-primary" [disabled]="!auth.authenticated() || timeLastClicked" (click)="updateClick()" id= "button">{{clicked}} </button>
+           <h1 *ngIf="auth.authenticated()"> {{profile.given_name}} {{profile.family_name}}</h1>
+
+                <h1 id="clicks"> Clicks so far</h1>
+            <button type="button" class="btn btn-primary" [disabled]="!auth.authenticated() || timeLastClicked" (click)="updateClick()"
+                id="button">{{clicked}} </button>
         </div>
 
         <div>
@@ -17,3 +31,4 @@
         </div>
     </div>
 
+</div>
